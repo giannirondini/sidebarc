@@ -6,7 +6,7 @@ format_version = 2
 [apps.SidebArc]
 identifier = 'io.github.giannirondini.sidebarc'
 product = 'sidebarc'
-version = '1.0.0'
+version = '1.1.0'
 description = 'A bookmark sidebar for macOS, organised in Spaces'
 license = 'MIT'
 category = 'public.app-category.productivity'
