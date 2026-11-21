@@ -299,7 +299,11 @@ extension MainViewController: SwipeGestureServiceDelegate {
         view.layer?.add(springAnimation("backgroundColor", from: startColor.cgColor, to: endColor.cgColor),
                         forKey: Self.transitionAnimationKey)
         if let pillSpaceId {
-            spaceBar.settleSelection(on: pillSpaceId) { keyPath, from, to in
+            spaceBar.settleSelection(
+                on: pillSpaceId,
+                duration: visualDuration,
+                travel: { CGFloat(spring.position(at: $0, initialVelocity: initialVelocity)) }
+            ) { keyPath, from, to in
                 springAnimation(keyPath, from: from, to: to)
             }
         }
