@@ -145,6 +145,13 @@ import Testing
         // Buttons fit the bar and leave room around a medium icon.
         #expect(ThemeConstants.Sizing.spaceBarButtonSize <= ThemeConstants.Sizing.spaceBarHeight)
         #expect(ThemeConstants.Sizing.spaceBarButtonSize > ThemeConstants.Sizing.iconMedium)
+        // Compact bar: the dot fits its slot, which is narrower than a full one.
+        #expect(ThemeConstants.Sizing.spaceBarDotSize < ThemeConstants.Sizing.spaceBarCompactSlotWidth)
+        #expect(ThemeConstants.Sizing.spaceBarCompactSlotWidth < ThemeConstants.Sizing.spaceBarButtonSize)
+        // Edge dots shrink, but stay visible.
+        #expect(ThemeConstants.Sizing.spaceBarEdgeDotMinSize > 0)
+        #expect(ThemeConstants.Sizing.spaceBarEdgeDotMinSize < ThemeConstants.Sizing.spaceBarDotSize)
+        #expect(ThemeConstants.Sizing.spaceBarEdgeDotRamp > 0)
     }
 
     // MARK: - Animation Tests

@@ -37,7 +37,7 @@ _Moved from CLAUDE.md › "UI Component Architecture (Post-Refactoring)" on 2026
   - Fonts: Typography styles (bodyRegular, bodySemibold, bodyMedium, bodyBold)
   - Spacing: Layout spacing values (tiny=4, small=6, medium=8, regular=10, large=14, extraLarge=16, huge=20)
   - CornerRadius: Rounding values (small=6, medium=8, large=12)
-  - Sizing: Standard sizes (iconSmall=14, iconMedium=18, iconLarge=22, iconExtraLarge=26, buttonHeight=32; list rows use `ListMetrics.rowHeight`), Favorites grid (`pinnedTileHeight`, `pinnedTileMinWidth`, `pinnedTileMinColumns`, `pinnedTileSpacing`) and space bar (`spaceBarHeight`, `spaceBarButtonSize`)
+  - Sizing: Standard sizes (iconSmall=14, iconMedium=18, iconLarge=22, iconExtraLarge=26, buttonHeight=32; list rows use `ListMetrics.rowHeight`), Favorites grid (`pinnedTileHeight`, `pinnedTileMinWidth`, `pinnedTileMinColumns`, `pinnedTileSpacing`) and space bar (`spaceBarHeight`, `spaceBarButtonSize`, `spaceBarCompactSlotWidth`, `spaceBarDotSize`, `spaceBarEdgeDotMinSize`, `spaceBarEdgeDotRamp`)
   - Animation: Timing values (durationFast=0.15s, durationNormal=0.2s, durationSlow=0.3s)
   - SpaceTransition: space-switch tuning (commit fraction, flick velocity, velocity window, rubber band, spring response and damping ratio)
 
@@ -483,6 +483,8 @@ let image = SpaceIconView.image(for: .emoji("🚀"), size: ThemeConstants.Sizing
 
 The bottom bar: gear, one button per space, `+`. Feed it the whole list on every reload;
 it rebuilds buttons only when the items change, and keeps the selected one scrolled into view.
+When every icon doesn't fit, it goes compact on its own (selected icon, dots for the rest;
+geometry in `SpaceBarLayout`).
 
 ```swift
 spaceBar.update(
@@ -499,10 +501,13 @@ spaceBar.onSettings = { /* toggle Settings */ }
 - Register it with `SwipeGestureService.shared.addExcludedView(spaceBar)`, so a horizontal
   scroll over it scrolls the bar instead of switching spaces.
 - The selection is a separate pill view. During a space transition, drive it with
-  `setSelectionProgress(toward:progress:)` while tracking and `settleSelection(on:animation:)`
-  inside the transition's `CATransaction`; call `endSelectionTransition()` when it lands.
-- `SpaceBarButton` (a `BaseControl`) is the square button used for all three kinds; its
-  content is dimmed unless selected or hovered.
+  `setSelectionProgress(toward:progress:)` while tracking and
+  `settleSelection(on:duration:travel:animation:)` inside the transition's `CATransaction`
+  (`animation` slides the pill in full mode; `travel`, the pages' spring curve, drives the
+  compact slots' resize until `duration`); call `endSelectionTransition()` when it lands.
+- `SpaceBarButton` (a `BaseControl`) is the button used for all three kinds; its content is
+  dimmed unless selected or hovered. A space button's `expansion` (set by the bar's layout)
+  crossfades its icon (1) with the compact bar's dot (0).
 
 ### SpaceHeaderView
 

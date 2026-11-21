@@ -265,6 +265,25 @@ struct ThemeConstants {
 
         /// Side of each square button in the space bar (gear, space icons, `+`)
         static let spaceBarButtonSize: CGFloat = 28
+
+        /// Width of an unselected space's slot once the bar is compact (too narrow
+        /// for every icon): a dot, as in Arc's space bar
+        static let spaceBarCompactSlotWidth: CGFloat = Spacing.extraLarge
+
+        /// Diameter of the dot standing for an unselected space in a compact bar
+        static let spaceBarDotSize: CGFloat = 7
+
+        /// A scrolling bar's dots shrink to this diameter at an edge with more spaces
+        /// beyond it (a carousel's page indicator), so the overflow shows
+        static let spaceBarEdgeDotMinSize: CGFloat = 3
+
+        /// Distance from a scrollable edge over which dots grow back to full size
+        /// (about two dot slots)
+        static let spaceBarEdgeDotRamp: CGFloat = 2 * (spaceBarCompactSlotWidth + Spacing.tiny)
+
+        /// A trackpad gesture over the space bar picks its axis (up/down or
+        /// left/right) after moving this far (`SpaceBarScrollMapper`)
+        static let spaceBarScrollLockDistance: CGFloat = Spacing.tiny
     }
 
     // MARK: - Space Transition
